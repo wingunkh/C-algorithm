@@ -96,7 +96,7 @@ int main(void){
 			break;
 		
 		case 2 :
-			if(Pop(&s,&x)==-1) printf("팝 실패");
+			if(Pop(&s,&x)==-1) printf("팝 실패"); // pop함수 호출 후에도 바로 밑에 코드에서 x를 사용하는 중임. 그러므로 call by value가 아닌 call by reference이여야 함.
 			else printf("팝 데이터는 %d입니다.\n",x);
 			break;
 
