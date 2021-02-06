@@ -1,0 +1,25 @@
+#include <stdio.h>
+
+#define N 10 // 매크로 상수 사용 이유: 재사용성 증가, 수정 시 용이 등
+
+int main(void) {
+	int i;
+	int a[N];
+	int cnt=0;
+	int retry;
+	printf("정수를 입력하세요.");
+	
+	do{
+		printf("%d번째 정수 : ",cnt+1);
+		scanf("%d",&a[cnt++ % N]); // N+1번째 정수 부터는 a[0], a[1] ... 에 덮어쓰여 저장됨.
+		printf("계속할까요?(YES ... 1 / NO ... 0) : ");
+		scanf("%d",&retry);
+	}while(retry==1);
+	
+	i=cnt-N;
+	if(i<0) i=0;
+	for(; i<cnt; i++) 
+		printf("%2d번째 정수 = %d\n",i+1,a[i%N]); // cnt가 11이여서 i=1인 경우에, a[0]부터 저장되지 않고 a[1]->a[2]-> ... ->a[9]->a[1] 순으로 저장됨.
+	
+	return 0;
+}
