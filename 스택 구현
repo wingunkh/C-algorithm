@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h> 
 
-typedef struct{
-	int max;
-	int ptr;
-	int *stk;
+typedef struct{ //스택 구조체
+	int max; // 스택의 최대용량
+	int ptr; // 스택 포인터(스택에 쌓여있는 데이터의 개수를 나타내는 멤버이다.)
+	int *stk; // 스택으로써 구현한 배열을 가리키는 포인터
 }IntStack;
 
-int Initialize(IntStack *s, int max){
+int Initialize(IntStack *s, int max){ // 스택으로써 구현한 배열의 메모리 공간을 확보하는 함수
 	s->ptr=0; 
 	if((s->stk=malloc(sizeof(int)*max))==NULL){ 
 		s->max=0; 
@@ -17,59 +17,59 @@ int Initialize(IntStack *s, int max){
 	return 0; 
 } 
 
-int Push(IntStack *s, int x){ 
+int Push(IntStack *s, int x){ // 스택에 데이터를 추가하는 함수
 	if(s->ptr >= s->max) return -1; 
-	s->stk[s->ptr++]=x; 
+	s->stk[s->ptr++]=x;
 	return 0; 
 } 
 
-int Pop(IntStack *s, int *x){ 
+int Pop(IntStack *s, int *x){ // 스택의 꼭대기(top)에서 데이터를 제거하는 함수
 	if(s->ptr <= 0) return -1; 
 	*x=s->stk[--s->ptr]; 
 	return 0;
 }
 
-int Peek(const IntStack *s,int *x){
+int Peek(const IntStack *s,int *x){ // 스택의 꼭대기(top)에서 데이터를 확인하는 함수
 	if(s->ptr <= 0) return -1;
 	*x=s->stk[s->ptr-1];
 	return 0;
 }
 
-void Clear(IntStack *s){
+void Clear(IntStack *s){ // 스택에 쌓여있는 모든 데이터를 삭제하는 함수
 	s->ptr=0;
 }
 
-int Capacity(const IntStack *s){
+int Capacity(const IntStack *s){ // 스택의 최대용량(max)을 반환하는 함수
 	return s->max; 
 }
 
-int Size(const IntStack *s){
+int Size(const IntStack *s){ // 현재 스택에 쌓여있는 데이터의 개수(ptr)를 반환하는 함수
 	return s->ptr; 
 }
 
-int IsEmpty(const IntStack *s){
+int IsEmpty(const IntStack *s){ // 스택이 비어있다면 1을 반환하는 함수
 	return s->ptr <= 0; 
 } 
 
-int IsFull(const IntStack *s){
+int IsFull(const IntStack *s){ // 스택이 가득 찼다면 1을 반환하는 함수
 	return s->ptr >= s->max; 
 } 
 
-int Search(const IntStack *s, int x){
+int Search(const IntStack *s, int x){ // 임의값의 데이터가 스택의 어느 위치에 쌓여있는지 검색하는 함수
 	for(int i=s->ptr-1 ; i>=0 ; i--){ 
 		if(s->stk[i] == x) return i; 
 	} 
 	return -1; 
 } 
 
-int Print(const IntStack *s){
+int Print(const IntStack *s){ // 스택에 쌓여있는 모든 데이터를 출력하는 함수
 	for(int i=0 ; i<s->ptr ; i++){
 		printf("%d ",s->stk[i]);
 	}
 	printf("\n");
 }
 
-void Terminate(IntStack *s){
+void Terminate(IntStack *s){ // 스택을 종료하는 함수(동적할당 메모리 해제 등)
 	if(s->stk != NULL) free(s->stk);
 	s->max = s->ptr = 0;
 }
