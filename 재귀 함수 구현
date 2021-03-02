@@ -1,0 +1,45 @@
+/* 팩토리얼 알고리즘
+-ex)5!은 5*4!로 나타낼 수 있다. 그러므로 return n*factorial(n-1);
+-0!=1
+*/
+
+#include <stdio.h>
+
+int factorial(int n){
+	if(n>0)
+			return n*factorial(n-1);
+	else // 0!=1
+		return 1;
+}
+
+int main(void){
+	int x;
+	printf("정수를 입력: ");
+	scanf("%d",&x);
+	printf("%d의 팩토리얼은 %d입니다.\n",x,factorial(x));
+	
+	return 0;
+}
+
+/*유클리드 호제법 알고리즘
+-두 정수가 주어질 경우 큰 값을 작은 값으로 나누었을 때 나누어떨어지는 가장 작은 값이 최대공약수이다.
+*/
+
+#include <stdio.h>
+
+int gcd(int x,int y){
+	if(y==0)
+			return x; //y가 0이면(나머지=0) x는 곧 최대공약수이므로 함수 종료.
+	else
+			return gcd(y,x%y);
+}
+
+int main(void){
+	int x,y;
+	printf("두 정수의 최대공약수를 구하는 프로그램입니다.\n");
+	printf("두 정수를 입력하세요: ");
+	scanf("%d %d",&x,&y);
+	printf("최대공약수는 %d입니다.\n",gcd(x,y));
+	
+	return 0;
+}
