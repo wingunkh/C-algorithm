@@ -1,0 +1,45 @@
+#include <stdio.h>
+
+void recur (int n){
+	if(n>0){
+		recur(n-1);
+		printf("%d\n",n);
+		recur(n-2);
+	}
+}
+
+int main(void){
+	int x;
+	printf("정수 입력: ");
+	scanf("%d",&x);
+	recur(x);
+	
+	return 0;
+}
+
+/* 하향식 분석 시
+recur(3) 4출력 recur(2)
+
+recur(3) = recur(2) 3출력 recur(1)
+recur(2) = recur(1) 2출력 recur(0) = recur(1) 2출력 
+recur(1) = recur(0) 1출력 recur(-1) = 1출력
+
+4출력
+
+recur(2) = recur(1) 2출력 recur(0) = recur(1) 2출력 
+recur(1) = recur(0) 1출력 recur(-1) = 1출력
+
+1출력 -> 2출력 -> 3출력 -> 1출력 -> 4출력 -> 1출력 -> 2출력
+
+그러므로 출력값: 1 2 3 1 4 1 2
+*/
+
+/* 상향식 분석 시
+recur(0) = X
+recur(1) = recur(0) 1출력 recur(-1) ※ 1출력
+recur(2) = recur(1) 2출력 recur(0) ※ 1출력 2출력
+recur(3) = recur(2) 3출력 recur(1) ※ 1출력 2출력 3출력 1출력
+recur(4) = recur(3) 4출력 recur(2) ※ 1출력 2출력 3출력 1출력 4출력 1출력 2출력
+
+그러므로 출력값: 1 2 3 1 4 1 2
+*/
