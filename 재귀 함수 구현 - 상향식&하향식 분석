@@ -36,7 +36,7 @@ recur(1) = recur(0) 1출력 recur(-1) = 1출력
 
 /* 상향식 분석 시
 recur(0) = X
-recur(1) = recur(0) 1출력 recur(-1) ※ 1출력
+recur(1) = recur(0) 1출력 recur(-1) ※ 1출력 
 recur(2) = recur(1) 2출력 recur(0) ※ 1출력 2출력
 recur(3) = recur(2) 3출력 recur(1) ※ 1출력 2출력 3출력 1출력
 recur(4) = recur(3) 4출력 recur(2) ※ 1출력 2출력 3출력 1출력 4출력 1출력 2출력
