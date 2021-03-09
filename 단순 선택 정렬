@@ -1,0 +1,49 @@
+/*단순 선택 정렬이란?
+: 가장 작은 요소부터 선택해 알맞은 위치로 옮겨가며 순서대로 정렬하는 알고리즘.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void swap(int *x,int *y){
+	int tmp;
+	tmp=*x;
+	*x=*y;
+	*y=tmp;
+}
+
+void selection(int a[],int n){
+	for(int i=0;i<n-1;i++){ //0번째 요소부터 n-1번째 요소까지 살펴보겠다.
+		int min=i; //i번째 요소를 우선기준으로 삼는다.
+		for(int j=i+1;j<n;j++){ //i번째 다음 요소인 i+1번째 요소부터 살펴보겠다.
+			if(a[j]<a[min]) min=j; //a[j]가 a[min]보다 작다면, 최소값을 가지고 있는 배열인덱스를 나타내는 변수인 min의 값을 j로 변경한다.
+		}
+		swap(&a[i],&a[min]); //swap함수가 selection함수 내의 지역변수인 a[i]와 a[min]의 값을 바꿔주려면 call by reference 이여야 한다.
+	}
+}
+
+int main(void){
+	int x;
+	int *arr;
+	
+	printf("단순 선택 정렬");
+	printf("요소 개수: ");
+	scanf("%d",&x);
+	arr=malloc(sizeof(int)*x);
+	
+	for(int i=0;i<x;i++){
+		printf("x[%d]: ",i);
+		scanf("%d",&arr[i]);
+	}
+	
+	selection(arr,x);
+	
+	printf("오름차순으로 정렬하였습니다.\n");
+	for(int i=0;i<x;i++){
+		printf("x[%d]: %d\n",i,arr[i]);
+	}
+	
+	free(arr);
+	
+	return 0;
+}
