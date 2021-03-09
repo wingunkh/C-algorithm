@@ -1,0 +1,50 @@
+/*단순 삽입 정렬이란?
+: 선택한 요소를 그보다 더 앞쪽의 알맞은 위치에 삽입하여 정렬하는 알고리즘.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void swap(int *x,int *y){
+	int tmp;
+	tmp=*x;
+	*x=*y;
+	*y=tmp;
+}
+
+void insertion(int a[],int n){
+	int i,j;
+	for(i=1;i<n;i++){
+		int tmp=a[i];
+		for(j=i;j>0&&a[j-1]>tmp;j--){ //for문의 조건식: j가 1 이상이면서 a[j-1]가 a[i]보다 크다면 계속 반복하라. (조건문이 거짓이 될 때 까지)
+			a[j]=a[j-1]; //a[j-1]가 a[j]보다 크므로 a[j]에 a[j-1]의 값을 삽입하라.
+		}
+		a[j]=tmp; //for문의 조건식을 만족하지 못했으므로 반복문을 종료하고 (a[j-1]가 a[j]보다 작음), a[j]에 a[i]의 값을 삽입하라.
+	}	
+}
+
+int main(void){
+	int x;
+	int *arr;
+	
+	printf("단순 삽입 정렬");
+	printf("요소 개수: ");
+	scanf("%d",&x);
+	arr=malloc(sizeof(int)*x);
+	
+	for(int i=0;i<x;i++){
+		printf("x[%d]: ",i);
+		scanf("%d",&arr[i]);
+	}
+	
+	insertion(arr,x);
+	
+	printf("오름차순으로 정렬하였습니다.\n");
+	for(int i=0;i<x;i++){
+		printf("x[%d]: %d\n",i,arr[i]);
+	}
+	
+	free(arr);
+	
+	return 0;
+}
