@@ -1,0 +1,53 @@
+/*도수 정렬이란?
+: 요소의 대소관계를 판단하지 않고 빠르게 정렬할 수 있는 알고리즘이다.
+if문과 재귀 호출 대신 단일for문 만을 사용해 정렬할 수 있어 효율적이지만 도수분포표가 필요하기에
+데이터의 최댓값과 최솟값을 알고있는 경우에만 사용할 수 있다는 특징이 있다.
+도수분포표 만들기 -> 누적도수분포표 만들기 -> 목적배열 만들기 -> 배열 복사하기 순으로 진행된다.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void fsort(int a[], int n, int max){ //도수 정렬 함수
+	int i;
+	int *f=malloc(sizeof(int)*max+1); //누적 도수
+	int *b=malloc(sizeof(int)*n); //작업용 목적 배열
+	
+	for(i=0;i<=max;i++) f[i]=0; //도수분포표 초기화
+	for(i=0;i<n;i++) f[a[i]]++; //도수분포표 만들기
+	for(i=1;i<=max;i++) f[i]+=f[i-1]; //누적도수분포표 만들기
+	for(i=n-1;i>=0;i--) b[--f[a[i]]]=a[i]; //목적 배열 만들기, 마지막 위치에서부터 스캔해야지 안정적이다.
+	for(i=0;i<n;i++) a[i]=b[i]; //배열 복사
+	
+	free(b);
+	free(f);
+}
+
+int main(void){
+	int i,nx;
+	int *x;
+	const int max=100; //가장 큰 값
+	printf("도수 정렬\n");
+	printf("요소 개수 : ");
+	
+	scanf("%d",&nx);
+	x=malloc(sizeof(int)*nx);
+	printf("0 ~ %d까지의 정수를 입력하세요.\n",max);
+	
+	for(i=0;i<nx;i++){
+		do{
+			printf("x[%d] : ",i);
+			scanf("%d",&x[i]);
+		}while(x[i] < 0 || x[i] > max); //최솟값과 최댓값을 알고 있는 경우에만 사용 가능하다.
+	}
+	
+	fsort(x,nx,max);
+	printf("오름차순으로 정렬했습니다.\n");
+	
+	for(i=0;i<nx;i++)
+		printf("x[%d] = %d\n",i,x[i]);
+	
+	free(x);
+	
+	return 0;
+}
