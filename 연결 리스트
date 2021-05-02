@@ -1,0 +1,68 @@
+-LinkedList.h-
+
+/*리스트란?
+: 데이터를 순서대로 나열한 자료구조이다. 이중에서 가장 단순하게 연결되어 있는 리스트를 연결리스트(또는 선형리스트)라고 한다.
+리스트의 데이터는 노드(또는 요소)라고 부르며, 각각의 노드는 데이터와 다음 노드를 가리키는 포인터를 가지고 있다.
+연결리스트처럼 자기 자신과 같은 자료형의 객체를 가리키는 데이터를 가지고 있는 자료구조를 자기 참조형이라고 한다.
+*/
+
+#ifndef ___LinkedList
+#define ___LinkedList
+
+#include "Member.h"
+
+typedef struct __node{
+	Member data; //데이터
+	struct __node *next; //다음 노드에 대한 포인터
+}Node;
+
+typedef struct{
+	Node *head; //머리 노드에 대한 포인터
+	Node *crnt; //선택한 노드에 대한 포인터
+}List;
+
+void Initialize(List *list);
+
+Node *search(List *list, const Member *x, int compare(const Member *x, const Member *y));
+
+void InsertFront(List *list, const Member *x);
+
+void InsertRear(List *list, const Member *x);
+
+void RemoveFront(List *list);
+
+void RemoveRear(List *list);
+
+void RemoveCurrent(List *list);
+
+void Clear(list *list);
+
+void PrintCurrent(const List *list);
+
+void Print(const List *list);
+
+void Terminate(List *list);
+#endif
+
+
+
+-LinkedList.c-
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "Member.h"
+#include "LinkedList.h"
+
+static Node *AllocNode(void){ //노드를 동적으로 생성하는 함수
+	return malloc(sizeof(Node));
+}
+
+static void SetNode(Node *n, const Member *x, const Member *next){ //n이 가리키는 노드의 각 멤버에 값을 설정하는 함수
+	n->data=*x;
+	n->next=next;
+}
+
+void Initialize (List *list){ //연결리스트 초기화 함수
+	list->head=NULL;
+	list->crnt=NULL;
+}
