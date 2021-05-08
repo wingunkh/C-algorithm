@@ -66,3 +66,109 @@ void Initialize (List *list){ //연결리스트 초기화 함수
 	list->head=NULL;
 	list->crnt=NULL;
 }
+
+Node *Search(List *list, const Member *x, int compare(const Member *x, const Member *y)){ //Search함수는 어떤 조건을 만족하는 노드를 선형검색 알고리즘으로 검색합니다.
+	Node *ptr=list->head; //스캔하고 있는 노드를 가리키는 변수 ptr을 list->head로 초기화
+	while(ptr!=NULL){
+		if(compare(&ptr->data, x)==0){ //주소로 비교하는 이유: 데이터가 같다면, x에 저장된 키값의 주소와 ptr->data의 주소는 같기 때문이다.
+			list->crnt=ptr;
+			retrun ptr; //리턴하는 값은 찾은 노드에 대한 포인터
+		}
+		ptr=ptr->next;
+	}
+	retrun NULL;
+}
+
+void InsertFront(List *list, const Member *x){ //머리에 노드를 삽입하는 함수
+	Node *ptr=list->head; //삽입전의 머리 노드A에 대한 포인터를 ptr에 대입
+	list->head=list->crnt=AllocNode(); //AllocNode함수를 통해 삽입할 새 노드를 만들고 헤드포인터가 가리키게함
+	SetNode(list->head,x,ptr); //헤드포인터가 새 노드를, 새 노드가 노드A를 가리키게함
+}
+
+void InsertRear(List *list, const Member *x){ //꼬리에 노드를 삽입하는 함수
+	if(list->head==NULL) //리스트가 비어있는 경우: 머리에 노드를 삽입하는 경우와 같이 삽입
+		InsertFront(list,x);
+	else{
+		Node *ptr=list->head;
+		while(ptr->next != NULL) //while문이 종료돠면 ptr은 꼬리노드를 가리킴
+			ptr=ptr->next;
+		ptr->next=list->crnt=AllocNode(); //AllocNode함수를 통해 새 노드를 만듦
+		SetNode(ptr->next,x,NULL); //새 노드가 NULL 값을 가리키게함
+	}
+}
+
+void RemoveFront(List *list){ //머리노드 삭제 함수
+	if(list->head!=NULL){ //노드가 비어있지 않다면
+		Node *ptr=list->head->next; //ptr이 두번째 노드를 가리킴
+		free(list->head); //최초 머리노드 메모리 해제
+		list->head=list->crnt=ptr; //헤드포인터가 ptr을 가리킴
+	}
+}
+
+void RemoveRear(List *list){ //꼬리노드 삭제 함수
+	if(list->head!=NULL){
+		if((list->head)->next==NULL) //노드가 한개만 있는 경우: 머리노드를 삭제하는 경우와 같이 삭제
+			RemoveFront(list); 
+		else{
+			Node *ptr=list->head;
+			Node *pre;
+			while(ptr->next!=NULL){ //while문이 종료되면 ptr은 꼬리노드를 가리킴
+				pre=ptr; //현재 스캔 중인 노드 바로 앞의 노드를 가리키는 pre변수 추가
+				ptr=ptr->next;
+			}
+			pre->next=NULL; //꼬리노드 바로 앞의 노드가 NULL값을 가리킴(pre가 꼬리노드)
+			free(ptr); //최초 꼬리노드 메모리 해제
+			list->crnt=pre;
+		}
+	}
+}
+
+void RemoveCurrent(List *list){ //선택노드 삭제 함수
+	if(list->head!=NULL){ 
+		if(list->crnt==list->head) //선택노드가 머리노드인 경우: 머리노드를 삭제하는 경우와 같이 삭제 
+			RemoveFront(list);
+		else{ 
+			Node *ptr=list->head; 
+			while(ptr->next!=list->crnt) //while문이 종료되면 ptr은 선택노드 앞 노드를 가리킴
+				ptr=ptr->next;
+			ptr->next=list->crnt->next; //ptr이 선택노드 뒷 노드를 가리킴
+			free(list->crnt); //선택 노드 메모리 해제
+			list->crnt=ptr;
+		}
+	}
+}
+
+void Clear(List *list){ //전체노드 삭제 함수
+	while(list->head!=NULL)
+		RemoveFront(list);
+	list->crnt=NULL;
+}
+
+void PrintCurrent(const List *list){ //선택한 노드의 데이터 출력 함수
+	if(list->crnt==NULL)
+		printf("선택한 노드가 없습니다.\n");
+	else
+		PrintMember(&list->crnt->data);
+}
+
+void PrintLnCurrent(const List *list){ //선택한 노드의 데이터 출력 함수 (이스케이프 시퀀스 포함)
+	PrintCurrent(list);
+	printf("\n");
+}
+
+void Print(const List *list){ //리스트의 모든 노드 출력함수
+	if(list->head==NULL)
+		printf("노드가 없습니다.\n");
+	else{
+		Node *ptr=list->head;
+		printf("[ 모두 보기 ]"\n);
+		while(ptr!=NULL){
+			PrintMember(&ptr->data);
+			ptr=ptr->next
+		}
+	}
+}
+
+void Terminate(List *list){ //연결리스트 종료함수
+	Clear(list);
+}
