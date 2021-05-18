@@ -259,14 +259,14 @@ Menu SelectMenu(void){
 		"번호 이용해 검색", "이름 이용해 검색", "모든 노드를 출력", "모든 노드를 삭제"
 	};
 	do{
-		for(i=TERMINATE;i<CLEAR;i++){
+		for(i=TERMINATE;i<CLEAR;i++){ //i는 0에서 9까지 증가
 			printf("(%2d) %-36.36s ",i+1,mstring[i]);
 			if((i%3)==2)
 				printf("\n");
 		}
 		printf("(0) 종료 : ");
 		scanf("%d",&ch);
-	}while(ch<TERMINATE || ch>CLEAR); //NULL값은 0이다. ch가 음수거나 ch가 
+	}while(ch<TERMINATE || ch>CLEAR); // ||는 AND연산자 이므로 "ch가 0보다 작거나 10보다 크다"라는 조건이 거짓일 때 까지 반복 = 1회만 반복
 	return(Menu)ch; //입력받은 정수ch를 Menu로 캐스팅하여 반환한다.
 }
 
@@ -327,7 +327,7 @@ int main(void){
 				Clear(&list);
 				break;
 			}
-	}while(menu!=TERMINATE);
+	}while(menu!=TERMINATE); //"menu값이 0이 아니다"라는 조건이 거짓일 때 까지 반복 = menu가 0이면 반복 종료
 	Terminate(&list);
 	
 	return 0;
